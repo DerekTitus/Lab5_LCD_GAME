@@ -55,6 +55,8 @@ int main(void) {
 			flag = 0;
 			isGameOver = 1;
 
+			char startover = 1;
+			LCDclear();
     		unsigned char player = initPlayer();
          	char direction = 0;
          	printPlayer(player);
@@ -94,21 +96,38 @@ int main(void) {
           		}
 
            		isGameOver = didPlayerWin(player, isGameOver, myString1, myString2);
-            		/*
-                     * while (game is on)
-                     * {
-                     *                 check if button is pushed (you don't want to block here, so don't poll!)
-                     *                 if button is pushed:
-                     *                         clear current player marker
-                     *                         update player position based on direction
-                     *                         print new player
-                     *                         clear two second timer
-                     *                         wait for button release (you can poll here)
-                     * }
 
-                     */
            	}
-while(1){}
+
+           	while(startover)
+           	{
+           		flag = 0;
+
+           		if(isP1ButtonPressed(BIT1))
+				{
+           			startover = 0;
+           			waitForP1ButtonRelease(BIT1);
+				}
+
+           		if(isP1ButtonPressed(BIT2))
+				{
+					startover = 0;
+					waitForP1ButtonRelease(BIT2);
+				}
+
+           		if(isP1ButtonPressed(BIT3))
+				{
+					startover = 0;
+					waitForP1ButtonRelease(BIT3);
+				}
+
+           		if(isP1ButtonPressed(BIT4))
+				{
+					startover = 0;
+					waitForP1ButtonRelease(BIT4);
+				}
+
+           	}
             	/*
             	                     * print game over or you won, depending on game result
             	                     *
