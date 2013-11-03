@@ -32,6 +32,8 @@ void init_buttons()
 {
     // do button initialization work
 	configureP1PinAsButton(BIT1|BIT2|BIT3|BIT4);
+	P1IE |= BIT1|BIT2|BIT3|BIT4;                 // enable the interrupts
+	P1IES |= BIT1|BIT2|BIT3|BIT4;                   // configure interrupt to sense falling edges
 }
 
 char flag = 0;
@@ -152,6 +154,28 @@ __interrupt void TIMER0_A1_ISR()
 		writeString(myString3, 8);
 		cursorToLineTwo();
 		writeString(myString4, 8);
+    }
+}
+
+#pragma vector=PORT1_VECTOR
+__interrupt void Port_1_ISR(void)
+{
+    if (P1IFG & BIT1)
+    {
+        P1IFG &= ~BIT1;                            // clear flag
+        while (1) {}                            // toggle LED 2
+    }
+
+    if (P1IFG & BIT2)
+    {
+        P1IFG &= ~BIT2;                         // clear flag
+        P1OUT ^= BIT0;                            // toggle LED 1
+    }
+
+    if (P1IFG & BIT3)
+    {
+        P1IFG &= ~BIT3;                         // clear P1.3 interrupt flag
+        P1OUT ^= BIT0|BIT6;                     // toggle both LEDs
     }
 }
 
