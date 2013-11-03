@@ -36,24 +36,42 @@ unsigned char movePlayer(unsigned char player, unsigned char direction)
         			case RIGHT:
         				clearPlayer(player);
 						player += 1;
+						if (player == 0x88)
+						{
+							player = 0x87;
+						}
 						printPlayer(player);
 						waitForP1ButtonRelease(BIT1);
 						break;
                     case LEFT:
                     	clearPlayer(player);
 						player -= 1;
+						if (player == 0x7F)
+						{
+							player = 0x80;
+						}
+						if (player == 0xBF)
+						{
+							player = 0xC0;
+						}
 						printPlayer(player);
 						waitForP1ButtonRelease(BIT2);
                         break;
                     case UP:
                     	clearPlayer(player);
-						player -= 0x40;
+						if (player >= 0xC0)
+						{
+							player -= 0x40;
+						}
 						printPlayer(player);
 						waitForP1ButtonRelease(BIT3);
                         break;
                     case DOWN:
                     	clearPlayer(player);
-						player += 0x40;
+                    	if (player <= 0x87)
+						{
+							player += 0x40;
+						}
 						printPlayer(player);
 						waitForP1ButtonRelease(BIT4);
                     	break;
