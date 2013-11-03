@@ -36,6 +36,10 @@ void init_buttons()
 
 char flag = 0;
 char isGameOver = 1;
+char myString1[] = "YOU     ";
+char myString2[] = "WIN!      ";
+char myString3[] = "YOU     ";
+char myString4[] = "LOSE!     ";
 
 int main(void) {
     WDTCTL = WDTPW | WDTHOLD;	// Stop watchdog timer
@@ -50,8 +54,7 @@ int main(void) {
     {
 			flag = 0;
 			isGameOver = 1;
-    		char myString1[] = "YOU     ";
-    	    char myString2[] = "WIN!      ";
+
     		unsigned char player = initPlayer();
          	char direction = 0;
          	printPlayer(player);
@@ -62,24 +65,32 @@ int main(void) {
            		{
            			direction = RIGHT;
            			player = movePlayer(player, direction);
+           			TAR = 0;
+           			flag = 0;
            		}
 
            		if(isP1ButtonPressed(BIT2))
            		{
            			direction = LEFT;
            			player = movePlayer(player, direction);
+           			TAR = 0;
+					flag = 0;
            		}
 
            		if(isP1ButtonPressed(BIT3))
            		{
            			direction = UP;
            			player = movePlayer(player, direction);
+           			TAR = 0;
+					flag = 0;
            		}
 
            		if(isP1ButtonPressed(BIT4))
            		{
            			direction = DOWN;
            			player = movePlayer(player, direction);
+           			TAR = 0;
+					flag = 0;
           		}
 
            		isGameOver = didPlayerWin(player, isGameOver, myString1, myString2);
@@ -117,7 +128,11 @@ __interrupt void TIMER0_A1_ISR()
     flag += 1;
     if(flag == 4)
     {
-
+    	isGameOver = 0;
+		LCDclear();
+		writeString(myString3, 8);
+		cursorToLineTwo();
+		writeString(myString4, 8);
     }
 }
 
