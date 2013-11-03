@@ -1,11 +1,38 @@
 #include <msp430.h>
-#include <Lab5_LCD_GAME.h>
+#include "Lab5_LCD_GAME.h"
 #include "buttons/button.h"
 #include "LCD/Lab4_LCD.h"
 
 /*
  * main.c
  */
+
+void init_timer()
+{
+    // do timer initialization work
+	TACTL &= ~(MC1|MC0);        // stop timer
+
+	TACTL |= TACLR;             // clear TAR
+
+	TACTL |= TASSEL1;           // configure for SMCLK - what's the frequency (roughly)?
+
+	TACTL |= ID1|ID0;           // divide clock by 8 - what's the frequency of interrupt?
+
+	TACTL &= ~TAIFG;            // clear interrupt flag
+
+	TACTL |= MC1;               // set count mode to continuous
+
+	TACTL |= TAIE;              // enable interrupt
+
+	__enable_interrupt();       // enable maskable interrupts
+
+}
+
+void init_buttons()
+{
+    // do button initialization work
+	configureP1PinAsButton(BIT1|BIT2|BIT3|BIT4);
+}
 
 char flag = 0;
 char isGameOver = 1;
@@ -16,13 +43,41 @@ int main(void) {
     init_timer();
     init_buttons();
     __enable_interrupt();
+    initSPI();
+    LCDinit();
 
     while(1)
     {
          	unsigned char player = initPlayer();
+         	char direction = 0;
+         	printPlayer(player);
 
            	while (isGameOver)
            	{
+           		if(isP1ButtonPressed(BIT1))
+           		{
+           			direction = RIGHT;
+           			player = movePlayer(player, direction);
+           		}
+
+           		if(isP1ButtonPressed(BIT2))
+           		{
+           			direction = LEFT;
+           			player = movePlayer(player, direction);
+           		}
+
+           		if(isP1ButtonPressed(BIT3))
+           		{
+           			direction = UP;
+           			player = movePlayer(player, direction);
+           		}
+
+           		if(isP1ButtonPressed(BIT4))
+           		{
+           			direction = DOWN;
+           			player = movePlayer(player, direction);
+          		}
+
 
             		/*
                      * while (game is on)
@@ -62,29 +117,4 @@ __interrupt void TIMER0_A1_ISR()
     }
 }
 
-void init_timer()
-{
-    // do timer initialization work
-	TACTL &= ~(MC1|MC0);        // stop timer
 
-	TACTL |= TACLR;             // clear TAR
-
-	TACTL |= TASSEL1;           // configure for SMCLK - what's the frequency (roughly)?
-
-	TACTL |= ID1|ID0;           // divide clock by 8 - what's the frequency of interrupt?
-
-	TACTL &= ~TAIFG;            // clear interrupt flag
-
-	TACTL |= MC1;               // set count mode to continuous
-
-	TACTL |= TAIE;              // enable interrupt
-
-	__enable_interrupt();       // enable maskable interrupts
-
-}
-
-void init_buttons()
-{
-    // do button initialization work
-	configureP1PinAsButton(BIT1|BIT2|BIT3|BIT4);
-}
