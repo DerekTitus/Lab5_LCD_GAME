@@ -40,7 +40,7 @@ unsigned char movePlayer(unsigned char player, unsigned char direction);
 //
 // Returns true if the position passed in is the winning game position.
 //
-char didPlayerWin(unsigned char player);
+char didPlayerWin(unsigned char player, char isGameOver, char myString1[], char myString2[]);
 
 #endif /* LAB5_LCD_GAME_H_ */
 

@@ -81,7 +81,15 @@ unsigned char movePlayer(unsigned char player, unsigned char direction)
         return player;
 }
 
-char didPlayerWin(unsigned char player)
+char didPlayerWin(unsigned char player, char isGameOver, char myString1[], char myString2[])
 {
-        return player == 0xC7;
+	if (player == 0xc7)
+	{
+		isGameOver = 0;
+		LCDclear();
+		writeString(myString1, 8);
+		cursorToLineTwo();
+		writeString(myString2, 8);
+	}
+	return isGameOver;
 }

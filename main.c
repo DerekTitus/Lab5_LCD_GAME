@@ -48,7 +48,11 @@ int main(void) {
 
     while(1)
     {
-         	unsigned char player = initPlayer();
+			flag = 0;
+			isGameOver = 1;
+    		char myString1[] = "YOU     ";
+    	    char myString2[] = "WIN!      ";
+    		unsigned char player = initPlayer();
          	char direction = 0;
          	printPlayer(player);
 
@@ -78,7 +82,7 @@ int main(void) {
            			player = movePlayer(player, direction);
           		}
 
-
+           		isGameOver = didPlayerWin(player, isGameOver, myString1, myString2);
             		/*
                      * while (game is on)
                      * {
@@ -93,7 +97,7 @@ int main(void) {
 
                      */
            	}
-
+while(1){}
             	/*
             	                     * print game over or you won, depending on game result
             	                     *
