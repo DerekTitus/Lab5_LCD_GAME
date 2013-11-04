@@ -9,6 +9,7 @@
 #include "Lab5_LCD_GAME.h"
 #include "LCD/Lab4_LCD.h"
 #include "buttons/button.h"
+#include "random/rand.h"
 
 unsigned char initPlayer()
 {
@@ -92,4 +93,43 @@ char didPlayerWin(unsigned char player, char isGameOver, char myString1[], char 
 		writeString(myString2, 8);
 	}
 	return isGameOver;
+}
+
+char generateMines(char mineCheck, char myString1[], char myString2[])
+{
+	char random = 0x81;
+	LCDclear();
+	writeString(myString1, 8);
+	cursorToLineTwo();
+	writeString(myString2, 8);
+	while (!isP1ButtonPressed(BIT1))
+	{
+		random += 1;
+		if (random == 0x88)
+		{
+			random = 0xC0;
+		}
+		if (random == 0xC7)
+		{
+			random = 0x81;
+		}
+		while ((random == (mineCheck + 0x3F)) || (random == (mineCheck + 0x40)) || (random == (mineCheck + 0x41)) ||
+				(random == (mineCheck - 0x3F)) || (random == (mineCheck - 0x40)) || (random == (mineCheck - 0x41)) || (random == mineCheck))
+		{
+			random += 1;
+			if (random == 0x88)
+			{
+				random = 0xC0;
+			}
+			if (random == 0xC7)
+			{
+				random = 0x81;
+			}
+		}
+
+	}
+
+	waitForP1ButtonRelease(BIT1);
+	return random;
+
 }

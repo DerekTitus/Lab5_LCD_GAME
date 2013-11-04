@@ -42,12 +42,14 @@ unsigned char movePlayer(unsigned char player, unsigned char direction);
 //
 char didPlayerWin(unsigned char player, char isGameOver, char myString1[], char myString2[]);
 
+char generateMines(char mineCheck, char myString1[], char myString2[]);
+
 #endif /* LAB5_LCD_GAME_H_ */
 
 /*
  * Functions which may prove useful in achieving A-Functionality.
  *
 char didPlayerHitMine(unsigned char player, unsigned char mines[NUM_MINES]);
-void generateMines(unsigned char mines[NUM_MINES]);
+
 void printMines(unsigned char mines[NUM_MINES]);
 */
