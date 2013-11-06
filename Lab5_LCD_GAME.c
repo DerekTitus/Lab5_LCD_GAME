@@ -91,8 +91,18 @@ char didPlayerWin(unsigned char player, char isGameOver, char myString1[], char 
 		writeString(myString1, 8);
 		cursorToLineTwo();
 		writeString(myString2, 8);
+		__delay_cycles(1000000);
 	}
+	else{ isGameOver = 1;}
 	return isGameOver;
+}
+
+char isMineLegal(char proposedMine, char placedMine)
+{
+	return ((proposedMine == (placedMine + 0x3F)) || (proposedMine == (placedMine + 0x40)) ||
+			(proposedMine == (placedMine + 0x41)) || (proposedMine == (placedMine - 0x3F)) ||
+			(proposedMine == (placedMine - 0x40)) || (proposedMine == (placedMine - 0x41)) ||
+			(proposedMine == placedMine));
 }
 
 char generateMines(char mineCheck, char myString1[], char myString2[])
@@ -102,7 +112,7 @@ char generateMines(char mineCheck, char myString1[], char myString2[])
 	writeString(myString1, 8);
 	cursorToLineTwo();
 	writeString(myString2, 8);
-	while (!isP1ButtonPressed(BIT1))
+	do
 	{
 		random += 1;
 		if (random == 0x88)
@@ -113,8 +123,8 @@ char generateMines(char mineCheck, char myString1[], char myString2[])
 		{
 			random = 0x81;
 		}
-		while ((random == (mineCheck + 0x3F)) || (random == (mineCheck + 0x40)) || (random == (mineCheck + 0x41)) ||
-				(random == (mineCheck - 0x3F)) || (random == (mineCheck - 0x40)) || (random == (mineCheck - 0x41)) || (random == mineCheck))
+
+		while (isMineLegal(random, mineCheck))
 		{
 			random += 1;
 			if (random == 0x88)
@@ -127,7 +137,7 @@ char generateMines(char mineCheck, char myString1[], char myString2[])
 			}
 		}
 
-	}
+	} while (!isP1ButtonPressed(BIT1));
 
 	waitForP1ButtonRelease(BIT1);
 	return random;
