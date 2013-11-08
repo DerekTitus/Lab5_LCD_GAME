@@ -143,3 +143,10 @@ char generateMines(char mineCheck, char myString1[], char myString2[])
 	return random;
 
 }
+
+void printMines(char mine1, char mine2){
+	writeCommandByte(mine1);
+	writeDataByte('X');
+	writeCommandByte(mine2);
+	writeDataByte('X');
+}

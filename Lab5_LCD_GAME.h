@@ -44,6 +44,8 @@ char didPlayerWin(unsigned char player, char isGameOver, char myString1[], char 
 
 char generateMines(char mineCheck, char myString1[], char myString2[]);
 
+void printMines(char mine1, char mine2);
+
 #endif /* LAB5_LCD_GAME_H_ */
 
 /*
@@ -51,5 +53,5 @@ char generateMines(char mineCheck, char myString1[], char myString2[]);
  *
 char didPlayerHitMine(unsigned char player, unsigned char mines[NUM_MINES]);
 
-void printMines(unsigned char mines[NUM_MINES]);
+
 */
